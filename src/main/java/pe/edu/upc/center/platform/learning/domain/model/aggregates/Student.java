@@ -3,6 +3,7 @@ package pe.edu.upc.center.platform.learning.domain.model.aggregates;
 import jakarta.persistence.*;
 import lombok.Getter;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProfileId;
+import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProgramId;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentCode;
 import pe.edu.upc.center.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
@@ -22,6 +23,17 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
       @AttributeOverride(name = "profileId", column = @Column(name = "profile_id", nullable = false))
   })
   private ProfileId profileId;
+
+  @Embedded
+  @AttributeOverrides( {
+      @AttributeOverride(name = "programId", column = @Column(name = "program_id", nullable = false))
+  })
+  private ProgramId programId;
+
+  @Getter
+  @Column(name = "start_period", length = 6, nullable = false)
+  private String startPeriod;
+
 
   //---------------------------------------------------
   public Student() {

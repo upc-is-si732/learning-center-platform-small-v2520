@@ -1,7 +1,9 @@
 package pe.edu.upc.center.platform.learning.domain.model.valueobjects;
 
+import jakarta.persistence.Embeddable;
 import java.util.UUID;
 
+@Embeddable
 public record StudentCode(String studentCode) {
   public StudentCode() {
     this(UUID.randomUUID().toString());
