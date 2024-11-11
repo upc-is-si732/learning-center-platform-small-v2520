@@ -5,6 +5,7 @@ import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateStude
 
 public class CreateStudentCommandFromResourceAssembler {
   public static CreateStudentCommand toCommandFromResource(CreateStudentResource resource) {
-    return new CreateStudentCommand(resource.name(), resource.age(), resource.address());
+    return new CreateStudentCommand(resource.name(), resource.age(), resource.address(),
+        resource.programId(), resource.startPeriod());
   }
 }

@@ -46,13 +46,14 @@ public class ExternalProfileService {
     this.profilesContextFacade.deleteProfile(profileId);
   }
 
+  // Evaluate if these method is necessary here or implement it in the transform layer
   public Optional<StudentResource> fetchStudentResourceFromProfileId(Student student) {
     var profileResource = this.profilesContextFacade.fetchProfileById(student.getProfileId());
     if (profileResource.isEmpty())
       return Optional.empty();
 
     var studentResource = new StudentResource(student.getStudentCode().studentCode(), profileResource.get().fullName(),
-        profileResource.get().age(), profileResource.get().street());
+        profileResource.get().age(), profileResource.get().street(), student.getProgramId(), student.getStartPeriod());
     return Optional.of(studentResource);
   }
 }

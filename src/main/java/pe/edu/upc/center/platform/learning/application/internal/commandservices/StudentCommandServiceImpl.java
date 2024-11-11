@@ -25,19 +25,22 @@ public class StudentCommandServiceImpl implements StudentCommandService {
 
   @Override
   public StudentCode handle(CreateStudentCommand command) {
-    var profileId = this.externalProfileService.fetchProfileIdByFullName(command.fullName());
-    if (profileId.isPresent()) {
-      this.studentRepository.findByProfileId(profileId.get()).ifPresent(student -> {
+    // Validate if profile already exists with the same name
+    var optionalProfileId = this.externalProfileService.fetchProfileIdByFullName(command.fullName());
+    if (optionalProfileId.isPresent()) {
+      this.studentRepository.findByProfileId(optionalProfileId.get()).ifPresent(student -> {
         throw new IllegalArgumentException("Student already exists");
       });
     }
 
-    profileId = this.externalProfileService.createProfile(command.fullName(), command.age(), command.street());
-    if (profileId.isEmpty()) {
+    // Create profile
+    optionalProfileId = this.externalProfileService.createProfile(command.fullName(), command.age(), command.street());
+    if (optionalProfileId.isEmpty()) {
       throw new IllegalArgumentException("Unable to create profile");
     }
 
-    var student = new Student(profileId.get());
+    // Create student
+    var student = new Student(optionalProfileId.get(), command.programId(), command.startPeriod());
     this.studentRepository.save(student);
     return student.getStudentCode();
   }

@@ -45,12 +45,17 @@ public class Student extends AuditableAbstractAggregateRoot<Student> {
     this.profileId = new ProfileId(profileId);
   }
 
-  public Student(ProfileId profileId) {
+  public Student(ProfileId profileId, Long programId, String startPeriod) {
     this();
     this.profileId = profileId;
+    this.programId = new ProgramId(programId);
+    this.startPeriod = startPeriod;
   }
 
   public Long getProfileId() {
-    return profileId.profileId();
+    return this.profileId.profileId();
+  }
+  public Long getProgramId() {
+    return this.programId.programId();
   }
 }

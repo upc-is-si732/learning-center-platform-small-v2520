@@ -9,6 +9,9 @@ import pe.edu.upc.center.platform.learning.domain.model.aggregates.CourseAssign;
 import pe.edu.upc.center.platform.learning.domain.model.aggregates.Enrollment;
 import pe.edu.upc.center.platform.shared.domain.model.entities.AuditableModel;
 
+/**
+ *
+ */
 @Getter
 @Entity
 @Table(name = "course_enroll_items")
@@ -20,7 +23,7 @@ public class CourseEnrollItem extends AuditableModel {
 
   @NotNull
   @ManyToOne
-  @JoinColumn(name = "enrollment_id")
+  @JoinColumn(name = "enrollment_id") // foreign key
   private Enrollment enrollment;
 
   @NotNull

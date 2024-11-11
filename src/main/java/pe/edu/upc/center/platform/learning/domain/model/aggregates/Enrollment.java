@@ -18,7 +18,7 @@ public class Enrollment extends AuditableAbstractAggregateRoot<Enrollment> {
   @Column(name = "period", length = 6, nullable = false)
   private String period;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.EAGER) // Foreign Key
   @JoinColumn(name = "status_id", nullable = false)
   private EnrollmentStatus status;
 

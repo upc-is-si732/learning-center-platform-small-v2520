@@ -20,7 +20,7 @@ public class EnrollmentStatus {
   private Long id;
 
   @Enumerated(EnumType.STRING)
-  @Column(length = 22)
+  @Column(name = "name", length = 22)
   private EnrollmentStatuses name;
 
   public EnrollmentStatus(EnrollmentStatuses name) {

@@ -40,18 +40,20 @@ public class StudentsController {
 
   @PostMapping
   public ResponseEntity<StudentResource> createStudent(@RequestBody CreateStudentResource resource) {
+    // Create student
     var createStudentCommand = CreateStudentCommandFromResourceAssembler.toCommandFromResource(resource);
     var studentCode = this.studentCommandService.handle(createStudentCommand);
-
+    // Validate if student code is empty
     if (studentCode.studentCode().isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
+    // Fetch student
     var getStudentByStudentCodeQuery = new GetStudentByStudentCodeQuery(studentCode);
     var student = this.studentQueryService.handle(getStudentByStudentCodeQuery);
-
     if (student.isEmpty()) {
       return ResponseEntity.badRequest().build();
     }
+    // Fetch student resource
     var studentResource = this.externalProfileService.fetchStudentResourceFromProfileId(student.get()).get();
     return new ResponseEntity<>(studentResource, HttpStatus.CREATED);
 
