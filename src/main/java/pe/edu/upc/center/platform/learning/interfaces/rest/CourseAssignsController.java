@@ -3,10 +3,8 @@ package pe.edu.upc.center.platform.learning.interfaces.rest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.center.platform.learning.domain.model.queries.GetAllCourseAssignsQuery;
 import pe.edu.upc.center.platform.learning.domain.model.queries.GetCourseAssignByIdQuery;
 import pe.edu.upc.center.platform.learning.domain.services.CourseAssignCommandService;
 import pe.edu.upc.center.platform.learning.domain.services.CourseAssignQueryService;
@@ -15,13 +13,15 @@ import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateCours
 import pe.edu.upc.center.platform.learning.interfaces.rest.transform.CourseAssignResourceFromEntityAssembler;
 import pe.edu.upc.center.platform.learning.interfaces.rest.transform.CreateCourseAssignCommandFromResourceAssembler;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/course-assign", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CourseAssignController {
+public class CourseAssignsController {
   private final CourseAssignCommandService courseAssignCommandService;
   private final CourseAssignQueryService courseAssignQueryService;
 
-  public CourseAssignController(CourseAssignCommandService courseAssignCommandService, CourseAssignQueryService courseAssignQueryService) {
+  public CourseAssignsController(CourseAssignCommandService courseAssignCommandService, CourseAssignQueryService courseAssignQueryService) {
     this.courseAssignCommandService = courseAssignCommandService;
     this.courseAssignQueryService = courseAssignQueryService;
   }
@@ -45,5 +45,15 @@ public class CourseAssignController {
     // Fetch course assign resource
     var courseAssignResource = CourseAssignResourceFromEntityAssembler.toResource(optionalCourseAssign.get());
     return new ResponseEntity<>(courseAssignResource, HttpStatus.CREATED);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<CourseAssignResource>> getAllCourseAssigns() {
+    var getAllCourseAssignsQuery = new GetAllCourseAssignsQuery();
+    var courseAssigns = this.courseAssignQueryService.handle(getAllCourseAssignsQuery);
+    var courseAssignResources = courseAssigns.stream()
+        .map(CourseAssignResourceFromEntityAssembler::toResource)
+        .toList();
+    return new ResponseEntity<>(courseAssignResources, HttpStatus.OK);
   }
 }
