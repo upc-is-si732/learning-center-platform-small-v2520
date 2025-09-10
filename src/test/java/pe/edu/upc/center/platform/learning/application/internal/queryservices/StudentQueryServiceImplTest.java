@@ -17,6 +17,7 @@ import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.reposi
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,85 +25,89 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class StudentQueryServiceImplTest {
 
-    @Mock
-    private StudentRepository studentRepository;
+  @Mock
+  private StudentRepository studentRepository;
 
-    @InjectMocks
-    private StudentQueryServiceImpl service;
+  @InjectMocks
+  private StudentQueryServiceImpl service;
 
-    @Test
-    @DisplayName("handle(GetAllStudentsQuery) should return list from repository (AAA)")
-    void handle_GetAll_ShouldReturnList() {
-        // Arrange
-        Student a = mock(Student.class);
-        Student b = mock(Student.class);
-        when(studentRepository.findAll()).thenReturn(List.of(a, b));
-        var query = new GetAllStudentsQuery();
+  @Test
+  @DisplayName("handle(GetAllStudentsQuery) should return list from repository (AAA)")
+  void handle_GetAll_ShouldReturnList() {
+    // Arrange
+    Student a = mock(Student.class);
+    Student b = mock(Student.class);
+    when(studentRepository.findAll()).thenReturn(List.of(a, b));
+    var query = new GetAllStudentsQuery();
 
-        // Act
-        var result = service.handle(query);
+    // Act
+    var actual = service.handle(query);
 
-        // Assert
-        assertEquals(2, result.size());
-        assertSame(a, result.get(0));
-        assertSame(b, result.get(1));
-        verify(studentRepository).findAll();
-        verifyNoMoreInteractions(studentRepository);
-    }
+    // Assert
+    assertEquals(2, actual.size());
+    assertSame(a, actual.get(0));
+    assertSame(b, actual.get(1));
+    verify(studentRepository).findAll();
+    verifyNoMoreInteractions(studentRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetStudentByIdQuery) should return Optional from repository (AAA)")
-    void handle_GetById_ShouldReturnOptional() {
-        // Arrange
-        Student expected = mock(Student.class);
-        when(studentRepository.findById(5L)).thenReturn(Optional.of(expected));
-        var query = new GetStudentByIdQuery(5L);
+  @Test
+  @DisplayName("handle(GetStudentByIdQuery) should return Optional from repository (AAA)")
+  void handle_GetById_ShouldReturnOptional() {
+    // Arrange
+    var profileId = new ProfileId(10L);
+    Student expected = new Student(profileId, 3310160L, "202520");
+    //Student expected = mock(Student.class);
+    when(studentRepository.findById(anyLong())).thenReturn(Optional.of(expected));
+    var query = new GetStudentByIdQuery(anyLong());
 
-        // Act
-        var result = service.handle(query);
+    // Act
+    var actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(studentRepository).findById(5L);
-        verifyNoMoreInteractions(studentRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    assertEquals(3310160L, expected.getProgramId());
+    assertEquals("202520", expected.getStartPeriod());
+    verify(studentRepository).findById(anyLong());
+    verifyNoMoreInteractions(studentRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetStudentByStudentCodeQuery) should delegate to repository (AAA)")
-    void handle_GetByCode_ShouldDelegate() {
-        // Arrange
-        var code = new StudentCode("STU-1");
-        Student expected = mock(Student.class);
-        when(studentRepository.findByStudentCode(code)).thenReturn(Optional.of(expected));
-        var query = new GetStudentByStudentCodeQuery(code);
+  @Test
+  @DisplayName("handle(GetStudentByStudentCodeQuery) should delegate to repository (AAA)")
+  void handle_GetByCode_ShouldDelegate() {
+    // Arrange
+    var code = new StudentCode(UUID.randomUUID().toString());
+    Student expected = mock(Student.class);
+    when(studentRepository.findByStudentCode(code)).thenReturn(Optional.of(expected));
+    var query = new GetStudentByStudentCodeQuery(code);
 
-        // Act
-        var result = service.handle(query);
+    // Act
+    var actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(studentRepository).findByStudentCode(code);
-        verifyNoMoreInteractions(studentRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    verify(studentRepository).findByStudentCode(code);
+    verifyNoMoreInteractions(studentRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetStudentByProfileIdQuery) should delegate to repository (AAA)")
-    void handle_GetByProfileId_ShouldDelegate() {
-        // Arrange
-        var profileId = new ProfileId(99L);
-        Student expected = mock(Student.class);
-        when(studentRepository.findByProfileId(profileId)).thenReturn(Optional.of(expected));
-        var query = new GetStudentByProfileIdQuery(profileId);
+  @Test
+  @DisplayName("handle(GetStudentByProfileIdQuery) should delegate to repository (AAA)")
+  void handle_GetByProfileId_ShouldDelegate() {
+    // Arrange
+    var profileId = new ProfileId(99L);
+    Student expected = mock(Student.class);
+    when(studentRepository.findByProfileId(profileId)).thenReturn(Optional.of(expected));
+    var query = new GetStudentByProfileIdQuery(profileId);
 
-        // Act
-        var result = service.handle(query);
+    // Act
+    var actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(studentRepository).findByProfileId(profileId);
-        verifyNoMoreInteractions(studentRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    verify(studentRepository).findByProfileId(profileId);
+    verifyNoMoreInteractions(studentRepository);
+  }
 }

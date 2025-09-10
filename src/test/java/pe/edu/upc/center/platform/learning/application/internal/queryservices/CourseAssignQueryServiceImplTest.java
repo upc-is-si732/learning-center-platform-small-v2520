@@ -20,47 +20,47 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CourseAssignQueryServiceImplTest {
 
-    @Mock
-    private CourseAssignRepository courseAssignRepository;
+  @Mock
+  private CourseAssignRepository courseAssignRepository;
 
-    @InjectMocks
-    private CourseAssignQueryServiceImpl service;
+  @InjectMocks
+  private CourseAssignQueryServiceImpl service;
 
-    @Test
-    @DisplayName("handle(GetCourseAssignByIdQuery) should return Optional from repository (AAA)")
-    void handle_GetById_ShouldReturnOptional() {
-        // Arrange
-        var query = new GetCourseAssignByIdQuery(10L);
-        CourseAssign expected = mock(CourseAssign.class);
-        when(courseAssignRepository.findById(10L)).thenReturn(Optional.of(expected));
+  @Test
+  @DisplayName("handle(GetCourseAssignByIdQuery) should return Optional from repository (AAA)")
+  void handle_GetById_ShouldReturnOptional() {
+    // Arrange
+    var query = new GetCourseAssignByIdQuery(10L);
+    CourseAssign expected = mock(CourseAssign.class);
+    when(courseAssignRepository.findById(10L)).thenReturn(Optional.of(expected));
 
-        // Act
-        Optional<CourseAssign> result = service.handle(query);
+    // Act
+    Optional<CourseAssign> actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(courseAssignRepository, times(1)).findById(10L);
-        verifyNoMoreInteractions(courseAssignRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    verify(courseAssignRepository, times(1)).findById(10L);
+    verifyNoMoreInteractions(courseAssignRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetAllCourseAssignsQuery) should return List from repository (AAA)")
-    void handle_GetAll_ShouldReturnList() {
-        // Arrange
-        var query = new GetAllCourseAssignsQuery();
-        CourseAssign a = mock(CourseAssign.class);
-        CourseAssign b = mock(CourseAssign.class);
-        when(courseAssignRepository.findAll()).thenReturn(List.of(a, b));
+  @Test
+  @DisplayName("handle(GetAllCourseAssignsQuery) should return List from repository (AAA)")
+  void handle_GetAll_ShouldReturnList() {
+    // Arrange
+    var query = new GetAllCourseAssignsQuery();
+    CourseAssign a = mock(CourseAssign.class);
+    CourseAssign b = mock(CourseAssign.class);
+    when(courseAssignRepository.findAll()).thenReturn(List.of(a, b));
 
-        // Act
-        var result = service.handle(query);
+    // Act
+    var actual = service.handle(query);
 
-        // Assert
-        assertEquals(2, result.size());
-        assertSame(a, result.get(0));
-        assertSame(b, result.get(1));
-        verify(courseAssignRepository, times(1)).findAll();
-        verifyNoMoreInteractions(courseAssignRepository);
-    }
+    // Assert
+    assertEquals(2, actual.size());
+    assertSame(a, actual.get(0));
+    assertSame(b, actual.get(1));
+    verify(courseAssignRepository, times(1)).findAll();
+    verifyNoMoreInteractions(courseAssignRepository);
+  }
 }

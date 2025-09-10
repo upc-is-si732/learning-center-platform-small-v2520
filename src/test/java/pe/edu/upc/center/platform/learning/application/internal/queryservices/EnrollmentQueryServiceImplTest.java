@@ -23,67 +23,67 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class EnrollmentQueryServiceImplTest {
 
-    @Mock private EnrollmentRepository enrollmentRepository;
-    @Mock private CourseEnrollItemRepository courseEnrollItemRepository;
+  @Mock private EnrollmentRepository enrollmentRepository;
+  @Mock private CourseEnrollItemRepository courseEnrollItemRepository;
 
-    @InjectMocks private EnrollmentQueryServiceImpl service;
+  @InjectMocks private EnrollmentQueryServiceImpl service;
 
-    @Test
-    @DisplayName("handle(GetEnrollmentByIdQuery) should return Optional from repository (AAA)")
-    void handle_GetEnrollmentById_ShouldReturnOptional() {
-        // Arrange
-        var query = new GetEnrollmentByIdQuery(7L);
-        Enrollment expected = mock(Enrollment.class);
-        when(enrollmentRepository.findById(7L)).thenReturn(Optional.of(expected));
+  @Test
+  @DisplayName("handle(GetEnrollmentByIdQuery) should return Optional from repository (AAA)")
+  void handle_GetEnrollmentById_ShouldReturnOptional() {
+    // Arrange
+    var query = new GetEnrollmentByIdQuery(7L);
+    Enrollment expected = mock(Enrollment.class);
+    when(enrollmentRepository.findById(7L)).thenReturn(Optional.of(expected));
 
-        // Act
-        Optional<Enrollment> result = service.handle(query);
+    // Act
+    Optional<Enrollment> actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(enrollmentRepository, times(1)).findById(7L);
-        verifyNoMoreInteractions(enrollmentRepository);
-        verifyNoInteractions(courseEnrollItemRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    verify(enrollmentRepository, times(1)).findById(7L);
+    verifyNoMoreInteractions(enrollmentRepository);
+    verifyNoInteractions(courseEnrollItemRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetAllEnrollmentsQuery) should return list from repository (AAA)")
-    void handle_GetAllEnrollments_ShouldReturnList() {
-        // Arrange
-        var query = new GetAllEnrollmentsQuery();
-        Enrollment a = mock(Enrollment.class);
-        Enrollment b = mock(Enrollment.class);
-        when(enrollmentRepository.findAll()).thenReturn(List.of(a, b));
+  @Test
+  @DisplayName("handle(GetAllEnrollmentsQuery) should return list from repository (AAA)")
+  void handle_GetAllEnrollments_ShouldReturnList() {
+    // Arrange
+    var query = new GetAllEnrollmentsQuery();
+    Enrollment a = mock(Enrollment.class);
+    Enrollment b = mock(Enrollment.class);
+    when(enrollmentRepository.findAll()).thenReturn(List.of(a, b));
 
-        // Act
-        List<Enrollment> result = service.handle(query);
+    // Act
+    List<Enrollment> actual = service.handle(query);
 
-        // Assert
-        assertEquals(2, result.size());
-        assertSame(a, result.get(0));
-        assertSame(b, result.get(1));
-        verify(enrollmentRepository, times(1)).findAll();
-        verifyNoMoreInteractions(enrollmentRepository);
-        verifyNoInteractions(courseEnrollItemRepository);
-    }
+    // Assert
+    assertEquals(2, actual.size());
+    assertSame(a, actual.get(0));
+    assertSame(b, actual.get(1));
+    verify(enrollmentRepository, times(1)).findAll();
+    verifyNoMoreInteractions(enrollmentRepository);
+    verifyNoInteractions(courseEnrollItemRepository);
+  }
 
-    @Test
-    @DisplayName("handle(GetCourseEnrollItemByIdQuery) should return Optional from repository (AAA)")
-    void handle_GetCourseEnrollItemById_ShouldReturnOptional() {
-        // Arrange
-        var query = new GetCourseEnrollItemByIdQuery(15L);
-        CourseEnrollItem expected = mock(CourseEnrollItem.class);
-        when(courseEnrollItemRepository.findById(15L)).thenReturn(Optional.of(expected));
+  @Test
+  @DisplayName("handle(GetCourseEnrollItemByIdQuery) should return Optional from repository (AAA)")
+  void handle_GetCourseEnrollItemById_ShouldReturnOptional() {
+    // Arrange
+    var query = new GetCourseEnrollItemByIdQuery(15L);
+    CourseEnrollItem expected = mock(CourseEnrollItem.class);
+    when(courseEnrollItemRepository.findById(15L)).thenReturn(Optional.of(expected));
 
-        // Act
-        Optional<CourseEnrollItem> result = service.handle(query);
+    // Act
+    Optional<CourseEnrollItem> actual = service.handle(query);
 
-        // Assert
-        assertTrue(result.isPresent());
-        assertSame(expected, result.get());
-        verify(courseEnrollItemRepository, times(1)).findById(15L);
-        verifyNoMoreInteractions(courseEnrollItemRepository);
-        verifyNoInteractions(enrollmentRepository);
-    }
+    // Assert
+    assertTrue(actual.isPresent());
+    assertSame(expected, actual.get());
+    verify(courseEnrollItemRepository, times(1)).findById(15L);
+    verifyNoMoreInteractions(courseEnrollItemRepository);
+    verifyNoInteractions(enrollmentRepository);
+  }
 }

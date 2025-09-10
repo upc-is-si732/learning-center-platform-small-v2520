@@ -28,9 +28,10 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     // Validate if profile already exists with the same name
     var optionalProfileId = this.externalProfileService.fetchProfileIdByFullName(command.fullName());
     if (optionalProfileId.isPresent()) {
-      this.studentRepository.findByProfileId(optionalProfileId.get()).ifPresent(student -> {
-        throw new IllegalArgumentException("Student already exists");
-      });
+      this.studentRepository.findByProfileId(optionalProfileId.get())
+          .ifPresent(student -> {
+            throw new IllegalArgumentException("Student already exists");
+          });
     }
 
     // Create profile

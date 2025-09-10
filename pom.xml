@@ -168,6 +168,22 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version> <!-- Or a compatible version -->
+				<configuration>
+					<source>24</source>
+					<target>24</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.38</version> <!-- Match Lombok version -->
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
