@@ -9,6 +9,7 @@ import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentCode
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.EnrollmentResource;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,8 +21,10 @@ class EnrollmentResourceFromEntityAssemblerTest {
   void toResource_ShouldMapEnrollment() {
     // Arrange
     Enrollment enrollment = mock(Enrollment.class);
+    String studentCode = UUID.randomUUID().toString();
     when(enrollment.getId()).thenReturn(77L);
-    when(enrollment.getStudentCode()).thenReturn(new StudentCode("STU-XYZ"));
+
+    when(enrollment.getStudentCode()).thenReturn(new StudentCode(studentCode));
     when(enrollment.getPeriod()).thenReturn("202520");
 
     EnrollmentStatus status = mock(EnrollmentStatus.class);
@@ -53,7 +56,7 @@ class EnrollmentResourceFromEntityAssemblerTest {
     // Assert
     assertNotNull(resource);
     assertEquals(77L, resource.id());
-    assertEquals("STU-XYZ", resource.studentCode());
+    assertEquals(studentCode, resource.studentCode());
     assertEquals("202520", resource.period());
     assertEquals("REGULAR", resource.status());
 

@@ -28,9 +28,6 @@ class EnrollmentStatusCommandServiceImplTest {
     // Arrange
     for (EnrollmentStatuses status : EnrollmentStatuses.values()) {
       when(enrollmentStatusRepository.existsByName(status)).thenReturn(false);
-      // save returns same entity
-      when(enrollmentStatusRepository.save(any(EnrollmentStatus.class)))
-          .thenAnswer(invocation -> invocation.getArgument(0));
     }
 
     // Act

@@ -2,14 +2,14 @@ package pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.services;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
+import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BcryptHashingService;
 
 /**
- * This class implements the {@link BCryptHashingService} interface.
+ * This class implements the {@link BcryptHashingService} interface.
  * It is used to hash passwords using the BCrypt algorithm.
  */
 @Service
-public class HashingServiceImpl implements BCryptHashingService {
+public class HashingServiceImpl implements BcryptHashingService {
   private final BCryptPasswordEncoder passwordEncoder;
 
   HashingServiceImpl() {

@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import pe.edu.upc.center.platform.iam.infrastructure.authorization.sfs.pipeline.BearerAuthorizationRequestFilter;
-import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
+import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BcryptHashingService;
 import pe.edu.upc.center.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class WebSecurityConfiguration {
 
   private final UserDetailsService userDetailsService;
   private final BearerTokenService tokenService;
-  private final BCryptHashingService hashingService;
+  private final BcryptHashingService hashingService;
 
   private final AuthenticationEntryPoint unauthorizedRequestHandler;
 
@@ -121,7 +121,7 @@ public class WebSecurityConfiguration {
    */
   public WebSecurityConfiguration(
       @Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService,
-      BearerTokenService tokenService, BCryptHashingService hashingService,
+      BearerTokenService tokenService, BcryptHashingService hashingService,
       AuthenticationEntryPoint authenticationEntryPoint) {
 
     this.userDetailsService = userDetailsService;

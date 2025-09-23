@@ -11,6 +11,7 @@ import pe.edu.upc.center.platform.profiles.domain.services.ProfileQueryService;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource;
 import pe.edu.upc.center.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -54,7 +55,7 @@ public class ProfilesContextFacade {
   public Long createProfile(String fullName, int age, String street) {
     var CreateProfileCommand = new CreateProfileCommand(fullName, age, street);
     var profileId = profileCommandService.handle(CreateProfileCommand);
-    if (profileId.equals(null)) {
+    if (Objects.isNull(profileId)) {
       return 0L;
     }
     return profileId;

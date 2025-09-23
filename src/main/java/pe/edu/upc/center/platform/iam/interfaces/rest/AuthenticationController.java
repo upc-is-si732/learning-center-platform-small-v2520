@@ -19,9 +19,9 @@ import pe.edu.upc.center.platform.iam.interfaces.rest.transform.SignUpCommandFro
 import pe.edu.upc.center.platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 
 /**
- * AuthenticationController
- * <p>
- *     This controller is responsible for handling authentication requests.
+ * AuthenticationController.
+ *
+ * <p>This controller is responsible for handling authentication requests.
  *     It exposes two endpoints:
  *     <ul>
  *         <li>POST /api/v1/auth/sign-in</li>
@@ -36,12 +36,18 @@ public class AuthenticationController {
 
   private final UserCommandService userCommandService;
 
+  /**
+   * Constructor.
+   *
+   * @param userCommandService the UserCommandService to use.
+   */
   public AuthenticationController(UserCommandService userCommandService) {
     this.userCommandService = userCommandService;
   }
 
   /**
    * Handles the sign-in request.
+   *
    * @param signInResource the sign-in request body.
    * @return the authenticated user resource.
    */
@@ -64,6 +70,7 @@ public class AuthenticationController {
 
   /**
    * Handles the sign-up request.
+   *
    * @param signUpResource the sign-up request body.
    * @return the created user resource.
    */

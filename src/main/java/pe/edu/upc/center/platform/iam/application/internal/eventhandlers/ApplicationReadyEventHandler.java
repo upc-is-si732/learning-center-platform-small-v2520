@@ -1,5 +1,6 @@
 package pe.edu.upc.center.platform.iam.application.internal.eventhandlers;
 
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -8,10 +9,9 @@ import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.iam.domain.model.commands.SeedRolesCommand;
 import pe.edu.upc.center.platform.iam.domain.services.RoleCommandService;
 
-import java.sql.Timestamp;
 
 /**
- * ApplicationReadyEventHandler class
+ * ApplicationReadyEventHandler class.
  * This class is used to handle the ApplicationReadyEvent
  */
 @Service
@@ -20,13 +20,19 @@ public class ApplicationReadyEventHandler {
   private static final Logger LOGGER
       = LoggerFactory.getLogger(ApplicationReadyEventHandler.class);
 
+  /**
+   * Constructor.
+   *
+   * @param roleCommandService the RoleCommandService to use
+   */
   public ApplicationReadyEventHandler(RoleCommandService roleCommandService) {
     this.roleCommandService = roleCommandService;
   }
 
   /**
-   * Handle the ApplicationReadyEvent
+   * Handle the ApplicationReadyEvent.
    * This method is used to seed the roles
+   *
    * @param event the ApplicationReadyEvent the event to handle
    */
   @EventListener

@@ -11,6 +11,7 @@ import pe.edu.upc.center.platform.learning.domain.model.valueobjects.ProfileId;
 import pe.edu.upc.center.platform.learning.domain.model.valueobjects.StudentCode;
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.StudentResource;
 import pe.edu.upc.center.platform.profiles.interfaces.acl.ProfilesContextFacade;
+import pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -185,19 +186,14 @@ class ExternalProfileServiceTest {
     when(student.getProgramId()).thenReturn(300L);
     when(student.getStartPeriod()).thenReturn("202520");
 
-    // We don't know the concrete type returned by fetchProfileById, only that it has accessors used in service.
-    // We'll create a Mockito mock that exposes those methods via ProfileResourceView.
     ProfileResourceView profile = mock(ProfileResourceView.class);
-    when(profile.fullName()).thenReturn("Jane Smith");
-    when(profile.age()).thenReturn(25);
-    when(profile.street()).thenReturn("Sunset Blvd");
 
     // Cast the mock to Object so Optional.of works, then service will call methods via reflection of its compile-time type.
     // Since ExternalProfileService calls profileResource.get().fullName(), we need the raw type to have that method.
     // Our ProfileResourceView provides it, and Mockito mock will handle it.
     when(profilesContextFacade.fetchProfileById(200L)).thenReturn(Optional.of(
-            pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource.class.cast(
-                mock(pe.edu.upc.center.platform.profiles.interfaces.rest.resources.ProfileResource.class,
+            ProfileResource.class.cast(
+                mock(ProfileResource.class,
                      withSettings().defaultAnswer(invocation -> {
                        switch (invocation.getMethod().getName()) {
                          case "fullName": return "Jane Smith";

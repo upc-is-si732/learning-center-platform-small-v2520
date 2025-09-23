@@ -25,7 +25,7 @@ class RoleCommandServiceImplTest {
     // Arrange
     for (Roles r : Roles.values()) {
       when(roleRepository.existsByName(r)).thenReturn(false);
-      when(roleRepository.save(any(Role.class))).thenAnswer(inv -> inv.getArgument(0));
+      //when(roleRepository.save(any(Role.class))).thenAnswer(inv -> inv.getArgument(0));
     }
 
     // Act

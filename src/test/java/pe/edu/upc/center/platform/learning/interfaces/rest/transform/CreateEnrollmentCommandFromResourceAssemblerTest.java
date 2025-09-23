@@ -8,6 +8,7 @@ import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateCours
 import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateEnrollmentResource;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,14 +22,15 @@ class CreateEnrollmentCommandFromResourceAssemblerTest {
         new CreateCourseEnrollResource(10L, 1),
         new CreateCourseEnrollResource(20L, 2)
     );
-    var resource = new CreateEnrollmentResource("STU-001", "202520", "REGULAR", courseEnrolls);
+    var studentCode = UUID.randomUUID().toString();
+    var resource = new CreateEnrollmentResource(studentCode, "202520", "REGULAR", courseEnrolls);
 
     // Act
     CreateEnrollmentCommand cmd = CreateEnrollmentCommandFromResourceAssembler.toCommand(resource);
 
     // Assert
     assertNotNull(cmd);
-    assertEquals("STU-001", cmd.studentCode().studentCode());
+    assertEquals(studentCode, cmd.studentCode().studentCode());
     assertEquals("202520", cmd.period());
     assertEquals("REGULAR", cmd.status());
 

@@ -5,12 +5,12 @@ import pe.edu.upc.center.platform.learning.interfaces.rest.resources.CreateCours
 
 public class CreateCourseEnrollItemCommandFromResourceAssembler {
 
-    public static CreateCourseEnrollItemCommand toCommand(Long enrollmentId,
-                                                          CreateCourseEnrollResource resource) {
-      return new CreateCourseEnrollItemCommand(
-          enrollmentId,
-          resource.courseAssignId(),
-          resource.numberOfTimes()
-      );
-    }
+  public static CreateCourseEnrollItemCommand toCommand(Long enrollmentId,
+                                                        CreateCourseEnrollResource resource) {
+    return new CreateCourseEnrollItemCommand(
+        enrollmentId,
+        resource.courseAssignId(),
+        resource.numberOfTimes()
+    );
+  }
 }
