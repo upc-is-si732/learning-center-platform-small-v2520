@@ -1,4 +1,4 @@
-package pe.edu.upc.center.platform.iam.interfaces.rest;
+package pe.edu.upc.center.platform.iam.interfaces.rest.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;

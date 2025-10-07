@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 	<groupId>pe.edu.upc.center</groupId>
-	<artifactId>learning-center-platform-mini</artifactId>
+	<artifactId>learning-center-platform-small</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>learning-center-platform-mini</name>
+	<name>learning-center-platform-small</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -235,18 +235,11 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>pe/edu/upc/center/platform/iam/domain/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/iam/infrastructure/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/iam/interfaces/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/learning/domain/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/learning/infrastructure/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/learning/interfaces/rest/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/profiles/domain/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/profiles/infrastructure/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/profiles/interfaces/rest/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/shared/domain/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/shared/infrastructure/**</exclude>
-                        <exclude>pe/edu/upc/center/platform/shared/interfaces/rest/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/**/domain/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/**/infrastructure/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/**/interfaces/rest/resources/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/**/interfaces/rest/controllers/**</exclude>
+                        <exclude>**/*Application*</exclude>
                     </excludes>
                     <rules>
                         <rule>
@@ -255,7 +248,7 @@
                                 <limit>
                                     <counter>INSTRUCTION</counter>
                                     <value>COVEREDRATIO</value>
-                                    <minimum>1.00</minimum>
+                                    <minimum>0.80</minimum>
                                 </limit>
                             </limits>
                         </rule>

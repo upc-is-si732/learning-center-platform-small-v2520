@@ -1,4 +1,4 @@
-package pe.edu.upc.center.platform.learning.interfaces.rest;
+package pe.edu.upc.center.platform.learning.interfaces.rest.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 

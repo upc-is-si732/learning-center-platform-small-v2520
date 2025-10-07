@@ -1,4 +1,4 @@
-package pe.edu.upc.center.platform.learning.interfaces.rest;
+package pe.edu.upc.center.platform.learning.interfaces.rest.controllers;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;

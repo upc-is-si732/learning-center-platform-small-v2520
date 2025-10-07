@@ -1,4 +1,4 @@
-package pe.edu.upc.center.platform.profiles.interfaces.rest;
+package pe.edu.upc.center.platform.profiles.interfaces.rest.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

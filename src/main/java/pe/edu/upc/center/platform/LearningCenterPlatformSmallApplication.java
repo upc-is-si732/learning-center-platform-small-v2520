@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  */
 @SpringBootApplication
 @EnableJpaAuditing
-public class LearningCenterPlatformMiniApplication {
+public class LearningCenterPlatformSmallApplication {
 
   /**
    * The main method to run the Spring Boot application.
@@ -17,6 +17,6 @@ public class LearningCenterPlatformMiniApplication {
    * @param args command-line arguments
    */
   public static void main(String[] args) {
-    SpringApplication.run(LearningCenterPlatformMiniApplication.class, args);
+    SpringApplication.run(LearningCenterPlatformSmallApplication.class, args);
   }
 }
