@@ -225,25 +225,44 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>pe/edu/upc/center/platform/iam/domain/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/iam/infrastructure/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/iam/interfaces/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/learning/domain/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/learning/infrastructure/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/learning/interfaces/rest/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/profiles/domain/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/profiles/infrastructure/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/profiles/interfaces/rest/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/shared/domain/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/shared/infrastructure/**</exclude>
-                                <exclude>pe/edu/upc/center/platform/shared/interfaces/rest/**</exclude>
-                            </excludes>
-                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>pe/edu/upc/center/platform/iam/domain/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/iam/infrastructure/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/iam/interfaces/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/learning/domain/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/learning/infrastructure/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/learning/interfaces/rest/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/profiles/domain/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/profiles/infrastructure/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/profiles/interfaces/rest/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/shared/domain/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/shared/infrastructure/**</exclude>
+                        <exclude>pe/edu/upc/center/platform/shared/interfaces/rest/**</exclude>
+                    </excludes>
+                    <rules>
+                        <rule>
+                            <element>BUNDLE</element>
+                            <limits>
+                                <limit>
+                                    <counter>INSTRUCTION</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>1.00</minimum>
+                                </limit>
+                            </limits>
+                        </rule>
+                    </rules>
+                </configuration>
             </plugin>
+
             <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
