@@ -39,13 +39,13 @@ pipeline {
       }
     }
 
-	  /*stage ('SonarQube Analysis') {
-			steps {
-				withSonarQubeEnv('sonarLocal') {
-					bat 'mvn clean verify sonar:sonar -Dsonar.projectKey=learning-center'
-				}
-			}
-		}*/
+	 stage ('SonarQube Analysis') {
+        steps {
+            withSonarQubeEnv('sonarLocal') {
+                bat 'mvn clean verify sonar:sonar -Dsonar.projectKey=learning-center'
+            }
+        }
+     }
 
     stage ('package Project') {
         steps {
