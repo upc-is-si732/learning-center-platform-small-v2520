@@ -184,6 +184,8 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -193,7 +195,7 @@
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<failOnViolation>true</failOnViolation>
-					<!--<violationSeverity>warning</violationSeverity>-->
+					<violationSeverity>warning</violationSeverity>
 				</configuration>
 				<executions>
 					<execution>
@@ -206,6 +208,48 @@
 				</executions>
 			</plugin>
 
+            <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.13</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>pe/edu/upc/center/platform/iam/domain/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/iam/infrastructure/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/iam/interfaces/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/learning/domain/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/learning/infrastructure/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/learning/interfaces/rest/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/profiles/domain/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/profiles/infrastructure/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/profiles/interfaces/rest/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/shared/domain/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/shared/infrastructure/**</exclude>
+                                <exclude>pe/edu/upc/center/platform/shared/interfaces/rest/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>5.2.0.4988</version>
+            </plugin>
 		</plugins>
 	</build>
 

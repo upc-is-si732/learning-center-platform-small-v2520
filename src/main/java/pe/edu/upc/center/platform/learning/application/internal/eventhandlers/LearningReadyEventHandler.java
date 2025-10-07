@@ -1,5 +1,6 @@
 package pe.edu.upc.center.platform.learning.application.internal.eventhandlers;
 
+import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -8,18 +9,29 @@ import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.learning.domain.model.commands.SeedEnrollmentStatusesCommand;
 import pe.edu.upc.center.platform.learning.domain.services.EnrollmentStatusCommandService;
 
-import java.sql.Timestamp;
-
+/**
+ * Event handler that listens for the ApplicationReadyEvent to seed enrollment statuses if needed.
+ */
 @Service
 public class LearningReadyEventHandler {
 
   private final EnrollmentStatusCommandService enrollmentStatusCommandService;
   private static final Logger LOGGER = LoggerFactory.getLogger(LearningReadyEventHandler.class);
 
+  /**
+   * Constructor for LearningReadyEventHandler.
+   *
+   * @param enrollmentStatusCommandService the service to handle enrollment status commands
+   */
   public LearningReadyEventHandler(EnrollmentStatusCommandService enrollmentStatusCommandService) {
     this.enrollmentStatusCommandService = enrollmentStatusCommandService;
   }
 
+  /**
+   * Handles the ApplicationReadyEvent to seed enrollment statuses if needed.
+   *
+   * @param event the ApplicationReadyEvent
+   */
   @EventListener
   public void on(ApplicationReadyEvent event) {
     var applicationName = event.getApplicationContext().getId();

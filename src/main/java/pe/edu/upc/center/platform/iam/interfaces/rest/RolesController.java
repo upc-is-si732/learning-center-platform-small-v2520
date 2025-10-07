@@ -1,6 +1,7 @@
 package pe.edu.upc.center.platform.iam.interfaces.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,8 @@ import pe.edu.upc.center.platform.iam.domain.services.RoleQueryService;
 import pe.edu.upc.center.platform.iam.interfaces.rest.resources.RoleResource;
 import pe.edu.upc.center.platform.iam.interfaces.rest.transform.RoleResourceFromEntityAssembler;
 
-import java.util.List;
-
 /**
- *  Roles Controller
- *  This controller is responsible for handling all the requests related to roles
+ * REST controller for managing roles.
  */
 @RestController
 @RequestMapping(value = "/ap/v1/roles", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,12 +22,18 @@ public class RolesController {
 
   private final RoleQueryService roleQueryService;
 
+  /**
+   * Constructor for RolesController.
+   *
+   * @param roleQueryService The RoleQueryService to be used by the controller.
+   */
   public RolesController(RoleQueryService roleQueryService) {
     this.roleQueryService = roleQueryService;
   }
 
   /**
-   * Get all roles
+   * Get all roles.
+   *
    * @return List of role resources
    * @see RoleResource
    */

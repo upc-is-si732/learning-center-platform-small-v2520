@@ -12,6 +12,9 @@ import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.reposi
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.EnrollmentRepository;
 import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.repositories.EnrollmentStatusRepository;
 
+/**
+ * Implementation of the EnrollmentCommandService interface.
+ */
 @Service
 public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
 
@@ -20,7 +23,18 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
   private final EnrollmentStatusRepository enrollmentStatusRepository;
   private final CourseEnrollItemRepository courseEnrollItemRepository;
 
-  public EnrollmentCommandServiceImpl(EnrollmentRepository enrollmentRepository, CourseAssignRepository courseAssignRepository, EnrollmentStatusRepository enrollmentStatusRepository, CourseEnrollItemRepository courseEnrollItemRepository) {
+  /**
+   * Constructor for EnrollmentCommandServiceImpl.
+   *
+   * @param enrollmentRepository the repository for Enrollment entities
+   * @param courseAssignRepository the repository for CourseAssign entities
+   * @param enrollmentStatusRepository the repository for EnrollmentStatus entities
+   * @param courseEnrollItemRepository the repository for CourseEnrollItem entities
+   */
+  public EnrollmentCommandServiceImpl(EnrollmentRepository enrollmentRepository,
+      CourseAssignRepository courseAssignRepository,
+      EnrollmentStatusRepository enrollmentStatusRepository,
+      CourseEnrollItemRepository courseEnrollItemRepository) {
     this.enrollmentRepository = enrollmentRepository;
     this.courseAssignRepository = courseAssignRepository;
     this.enrollmentStatusRepository = enrollmentStatusRepository;
@@ -30,24 +44,30 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
   @Override
   public Long handle(CreateEnrollmentCommand command) {
     // Validate if enrollment already exists
-    if (this.enrollmentRepository.existsByStudentCodeAndAndPeriod(command.studentCode(), command.period())) {
+    if (this.enrollmentRepository.existsByStudentCodeAndAndPeriod(command.studentCode(),
+        command.period())) {
       throw new IllegalArgumentException("Enrollment with student code " + command.studentCode()
           + " and period " + command.period() + " already exists");
     }
 
     //  Validate if enrollment status exists
-    var enrollmentStatus = this.enrollmentStatusRepository.findByName(EnrollmentStatuses.valueOf(command.status()))
-        .orElseThrow(() -> new IllegalArgumentException("Enrollment status with name " + command.status() + " not found"));
+    var enrollmentStatus
+        = this.enrollmentStatusRepository.findByName(EnrollmentStatuses.valueOf(command.status()))
+        .orElseThrow(() ->
+            new IllegalArgumentException("Enrollment status with name " + command.status()
+                + " not found"));
 
     // Create enrollment
     var enrollment = new Enrollment(command.studentCode(), command.period(), enrollmentStatus);
     // Add course enroll items
     var courseEnrollItems = command.courseEnrolls().stream()
         .map(courseEnroll -> {
-            var courseAssign = this.courseAssignRepository.findById(courseEnroll.courseAssignId())
-                .orElseThrow(() -> new IllegalArgumentException("Course assign with id " + courseEnroll.courseAssignId() + " not found"));
-            return new CourseEnrollItem(enrollment, courseAssign, courseEnroll.numberOfTimes());
-          })
+          var courseAssign = this.courseAssignRepository.findById(courseEnroll.courseAssignId())
+              .orElseThrow(() ->
+                  new IllegalArgumentException("Course assign with id "
+                      + courseEnroll.courseAssignId() + " not found"));
+          return new CourseEnrollItem(enrollment, courseAssign, courseEnroll.numberOfTimes());
+        })
         .toList();
     enrollment.addCourseEnrollItems(courseEnrollItems);
 
@@ -64,25 +84,33 @@ public class EnrollmentCommandServiceImpl implements EnrollmentCommandService {
   public Long handle(CreateCourseEnrollItemCommand command) {
     // Validate if enrollment exists
     var enrollment = this.enrollmentRepository.findById(command.enrollmentId())
-        .orElseThrow(() -> new IllegalArgumentException("Enrollment with id " + command.enrollmentId() + " not found"));
+        .orElseThrow(() ->
+            new IllegalArgumentException("Enrollment with id " + command.enrollmentId()
+                + " not found"));
 
     // Validate if course assign exists
     var courseAssign = this.courseAssignRepository.findById(command.courseAssignId())
-        .orElseThrow(() -> new IllegalArgumentException("Course assign with id " + command.courseAssignId() + " not found"));
+        .orElseThrow(() ->
+            new IllegalArgumentException("Course assign with id " + command.courseAssignId()
+                + " not found"));
 
     // validate if course enroll item already exists
-    if (this.courseEnrollItemRepository.existsByEnrollmentAndCourseAssign(enrollment, courseAssign)) {
-      throw new IllegalArgumentException("Course enroll item with enrollment id " + command.enrollmentId()
-          + " and course assign id " + command.courseAssignId() + " already exists");
+    if (this.courseEnrollItemRepository.existsByEnrollmentAndCourseAssign(enrollment,
+        courseAssign)) {
+      throw new IllegalArgumentException("Course enroll item with enrollment id "
+          + command.enrollmentId() + " and course assign id " + command.courseAssignId()
+          + " already exists");
     }
 
     // create course enroll item
-    var courseEnrollItem = new CourseEnrollItem(enrollment, courseAssign, command.numberOfTimes());
+    var courseEnrollItem = new CourseEnrollItem(enrollment, courseAssign,
+        command.numberOfTimes());
 
     try {
       this.courseEnrollItemRepository.save(courseEnrollItem);
     } catch (Exception e) {
-      throw new IllegalArgumentException("Error while saving course enroll item: " + e.getMessage());
+      throw new IllegalArgumentException("Error while saving course enroll item: "
+          + e.getMessage());
     }
 
     return courseEnrollItem.getId();

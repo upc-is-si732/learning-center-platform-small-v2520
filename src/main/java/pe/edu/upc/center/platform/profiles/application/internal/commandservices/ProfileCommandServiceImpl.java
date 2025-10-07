@@ -1,5 +1,6 @@
 package pe.edu.upc.center.platform.profiles.application.internal.commandservices;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.profiles.domain.model.aggregates.Profile;
 import pe.edu.upc.center.platform.profiles.domain.model.commands.CreateProfileCommand;
@@ -8,13 +9,19 @@ import pe.edu.upc.center.platform.profiles.domain.model.commands.UpdateProfileCo
 import pe.edu.upc.center.platform.profiles.domain.services.ProfileCommandService;
 import pe.edu.upc.center.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 
-import java.util.Optional;
-
+/**
+ * Implementation of ProfileCommandService.
+ */
 @Service
 public class ProfileCommandServiceImpl implements ProfileCommandService {
 
   private final ProfileRepository profileRepository;
 
+  /**
+   * Constructor for ProfileCommandServiceImpl.
+   *
+   * @param profileRepository the profile repository
+   */
   public ProfileCommandServiceImpl(ProfileRepository profileRepository) {
     this.profileRepository = profileRepository;
   }
@@ -62,7 +69,8 @@ public class ProfileCommandServiceImpl implements ProfileCommandService {
   public void handle(DeleteProfileCommand command) {
     // If the profile does not exist, throw an exception
     if (!this.profileRepository.existsById(command.profileId())) {
-      throw new IllegalArgumentException("Profile with id " + command.profileId() + " does not exist");
+      throw new IllegalArgumentException("Profile with id " + command.profileId()
+          + " does not exist");
     }
 
     // Try to delete the profile, if an error occurs, throw an exception

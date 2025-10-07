@@ -1,9 +1,17 @@
 package pe.edu.upc.center.platform.iam.infrastructure.tokens.jwt.services;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.function.Function;
+import javax.crypto.SecretKey;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pe.edu.upc.center.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.function.Function;
-
 /**
  * Token service implementation for JWT tokens.
  * This class is responsible for generating and validating JWT tokens.
@@ -25,7 +28,7 @@ import java.util.function.Function;
  */
 @Service
 public class TokenServiceImpl implements BearerTokenService {
-  private final Logger LOGGER = LoggerFactory.getLogger(TokenServiceImpl.class);
+  private final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
 
   private static final String AUTHORIZATION_PARAMETER_NAME = "Authorization";
   private static final String BEARER_TOKEN_PREFIX = "Bearer ";
@@ -39,7 +42,8 @@ public class TokenServiceImpl implements BearerTokenService {
   private int expirationDays;
 
   /**
-   * This method generates a JWT token from an authentication object
+   * This method generates a JWT token from an authentication object.
+   *
    * @param authentication the authentication object
    * @return String the JWT token
    * @see Authentication
@@ -50,7 +54,8 @@ public class TokenServiceImpl implements BearerTokenService {
   }
 
   /**
-   * This method generates a JWT token from a username
+   * This method generates a JWT token from a username.
+   *
    * @param username the username
    * @return String the JWT token
    */
@@ -61,6 +66,7 @@ public class TokenServiceImpl implements BearerTokenService {
   /**
    * This method generates a JWT token from a username and a secret.
    * It uses the default expiration days from the application.properties file.
+   *
    * @param username the username
    * @return String the JWT token
    */
@@ -77,7 +83,8 @@ public class TokenServiceImpl implements BearerTokenService {
   }
 
   /**
-   * This method extracts the username from a JWT token
+   * This method extracts the username from a JWT token.
+   *
    * @param token the token
    * @return String the username
    */
@@ -87,7 +94,8 @@ public class TokenServiceImpl implements BearerTokenService {
   }
 
   /**
-   * This method validates a JWT token
+   * This method validates a JWT token.
+   *
    * @param token the token
    * @return boolean true if the token is valid, false otherwise
    */
@@ -95,24 +103,25 @@ public class TokenServiceImpl implements BearerTokenService {
   public boolean validateToken(String token) {
     try {
       Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token);
-      LOGGER.info("Token is valid");
+      logger.info("Token is valid");
       return true;
     }  catch (SignatureException e) {
-      LOGGER.error("Invalid JSON Web Token Signature: {}", e.getMessage());
+      logger.error("Invalid JSON Web Token Signature: {}", e.getMessage());
     } catch (MalformedJwtException e) {
-      LOGGER.error("Invalid JSON Web Token: {}", e.getMessage());
+      logger.error("Invalid JSON Web Token: {}", e.getMessage());
     } catch (ExpiredJwtException e) {
-      LOGGER.error("JSON Web Token is expired: {}", e.getMessage());
+      logger.error("JSON Web Token is expired: {}", e.getMessage());
     } catch (UnsupportedJwtException e) {
-      LOGGER.error("JSON Web Token is unsupported: {}", e.getMessage());
+      logger.error("JSON Web Token is unsupported: {}", e.getMessage());
     } catch (IllegalArgumentException e) {
-      LOGGER.error("JSON Web Token claims string is empty: {}", e.getMessage());
+      logger.error("JSON Web Token claims string is empty: {}", e.getMessage());
     }
     return false;
   }
 
   /**
-   * Extract a claim from a token
+   * Extract a claim from a token.
+   *
    * @param token the token
    * @param claimsResolvers the claims resolver
    * @param <T> the type of the claim
@@ -124,7 +133,8 @@ public class TokenServiceImpl implements BearerTokenService {
   }
 
   /**
-   * Extract all claims from a token
+   * Extract all claims from a token.
+   *
    * @param token the token
    * @return Claims the claims
    */
@@ -137,7 +147,8 @@ public class TokenServiceImpl implements BearerTokenService {
   }
 
   /**
-   * Get the signing key
+   * Get the signing key.
+   *
    * @return SecretKey the signing key
    */
   private SecretKey getSigningKey() {
@@ -164,8 +175,9 @@ public class TokenServiceImpl implements BearerTokenService {
   @Override
   public String getBearerTokenFrom(HttpServletRequest request) {
     String parameter = getAuthorizationParameterFrom(request);
-    if (isTokenPresentIn(parameter) && isBearerTokenIn(parameter))
+    if (isTokenPresentIn(parameter) && isBearerTokenIn(parameter)) {
       return extractTokenFrom(parameter);
+    }
     return null;
   }
 }

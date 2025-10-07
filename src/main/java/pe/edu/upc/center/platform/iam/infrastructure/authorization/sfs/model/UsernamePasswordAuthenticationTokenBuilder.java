@@ -13,6 +13,7 @@ public class UsernamePasswordAuthenticationTokenBuilder {
 
   /**
    * This method is responsible for building the UsernamePasswordAuthenticationToken object.
+   *
    * @param principal The user details.
    * @param request The HTTP request.
    * @return The UsernamePasswordAuthenticationToken object.

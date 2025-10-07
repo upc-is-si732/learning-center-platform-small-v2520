@@ -16,12 +16,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   private final UserRepository userRepository;
 
+  /**
+   * Constructor with dependencies.
+   *
+   * @param userRepository The user repository.
+   */
   public UserDetailsServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
   /**
    * This method is responsible for loading the user details from the database.
+   *
    * @param username The username.
    * @return The UserDetails object.
    * @throws UsernameNotFoundException If the user is not found.

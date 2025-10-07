@@ -1,5 +1,6 @@
 package pe.edu.upc.center.platform.iam.application.internal.commandservices;
 
+import java.util.Arrays;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.iam.domain.model.commands.SeedRolesCommand;
 import pe.edu.upc.center.platform.iam.domain.model.entities.Role;
@@ -7,22 +8,26 @@ import pe.edu.upc.center.platform.iam.domain.model.valueobjects.Roles;
 import pe.edu.upc.center.platform.iam.domain.services.RoleCommandService;
 import pe.edu.upc.center.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 
-import java.util.Arrays;
-
 /**
- * Implementation of {@link RoleCommandService} to handle {@link SeedRolesCommand}
+ * Implementation of {@link RoleCommandService} to handle {@link SeedRolesCommand}.
  */
 @Service
 public class RoleCommandServiceImpl implements RoleCommandService {
 
   private final RoleRepository roleRepository;
 
+  /**
+   * Constructor for RoleCommandServiceImpl.
+   *
+   * @param roleRepository The RoleRepository to be used by the service.
+   */
   public RoleCommandServiceImpl(RoleRepository roleRepository) {
     this.roleRepository = roleRepository;
   }
 
   /**
-   * This method will handle the {@link SeedRolesCommand} and will create the roles if not exists
+   * This method will handle the {@link SeedRolesCommand} and will create the roles if not exists.
+   *
    * @param command {@link SeedRolesCommand}
    * @see SeedRolesCommand
    */
@@ -30,9 +35,9 @@ public class RoleCommandServiceImpl implements RoleCommandService {
   public void handle(SeedRolesCommand command) {
     Arrays.stream(Roles.values())
         .forEach(role -> {
-          if(!roleRepository.existsByName(role)) {
+          if (!roleRepository.existsByName(role)) {
             roleRepository.save(new Role(Roles.valueOf(role.name())));
           }
-        } );
+        });
   }
 }

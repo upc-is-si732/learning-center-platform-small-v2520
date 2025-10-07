@@ -1,19 +1,21 @@
 package pe.edu.upc.center.platform.iam.application.internal.outboundservices.hashing;
 
 /**
- * HashingService interface
- * This interface is used to encode and match passwords
+ * Service interface for hashing operations, such as encoding passwords and verifying matches.
  */
 public interface HashingService {
+
   /**
-   * Encode a password
+   * Encode a password.
+   *
    * @param rawPassword the password to encode
    * @return String the encoded password
    */
   String encode(CharSequence rawPassword);
 
   /**
-   * Match a raw password with an encoded password
+   * Match a raw password with an encoded password.
+   *
    * @param rawPassword the raw password
    * @param encodedPassword the encoded password
    * @return boolean true if the raw password matches the encoded password, false otherwise

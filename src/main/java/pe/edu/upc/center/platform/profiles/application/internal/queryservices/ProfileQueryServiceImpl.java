@@ -1,5 +1,7 @@
 package pe.edu.upc.center.platform.profiles.application.internal.queryservices;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.center.platform.profiles.domain.model.aggregates.Profile;
 import pe.edu.upc.center.platform.profiles.domain.model.queries.GetAllProfilesQuery;
@@ -9,14 +11,19 @@ import pe.edu.upc.center.platform.profiles.domain.model.queries.GetProfileByIdQu
 import pe.edu.upc.center.platform.profiles.domain.services.ProfileQueryService;
 import pe.edu.upc.center.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * Implementation of the ProfileQueryService interface.
+ */
 @Service
 public class ProfileQueryServiceImpl implements ProfileQueryService {
 
   private final ProfileRepository profileRepository;
 
+  /**
+   * Constructor for ProfileQueryServiceImpl.
+   *
+   * @param profileRepository the repository to access profile data
+   */
   public ProfileQueryServiceImpl(ProfileRepository profileRepository) {
     this.profileRepository = profileRepository;
   }

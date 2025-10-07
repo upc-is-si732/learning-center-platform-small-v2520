@@ -1,5 +1,6 @@
 package pe.edu.upc.center.platform.iam.infrastructure.authorization.sfs.configuration;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,16 +20,13 @@ import pe.edu.upc.center.platform.iam.infrastructure.authorization.sfs.pipeline.
 import pe.edu.upc.center.platform.iam.infrastructure.hashing.bcrypt.BcryptHashingService;
 import pe.edu.upc.center.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
 
-import java.util.List;
-
 /**
  * Web Security Configuration.
- * <p>
- * This class is responsible for configuring the web security.
+ *
+ * <p>This class is responsible for configuring the web security.
  * It enables the method security and configures the security filter chain.
  * It includes the authentication manager, the authentication provider,
- * the password encoder and the authentication entry point.
- * </p>
+ * the password encoder and the authentication entry point.</p>
  */
 @Configuration
 @EnableMethodSecurity
@@ -42,6 +40,7 @@ public class WebSecurityConfiguration {
 
   /**
    * This method creates the Bearer Authorization Request Filter.
+   *
    * @return The Bearer Authorization Request Filter
    */
   @Bean
@@ -51,6 +50,7 @@ public class WebSecurityConfiguration {
 
   /**
    * This method creates the authentication manager.
+   *
    * @param authenticationConfiguration The authentication configuration
    * @return The authentication manager
    */
@@ -62,6 +62,7 @@ public class WebSecurityConfiguration {
 
   /**
    * This method creates the authentication provider.
+   *
    * @return The authentication provider
    */
   @Bean
@@ -74,6 +75,7 @@ public class WebSecurityConfiguration {
 
   /**
    * This method creates the password encoder.
+   *
    * @return The password encoder
    */
   @Bean
@@ -90,20 +92,23 @@ public class WebSecurityConfiguration {
    */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors(corsConfigurer -> corsConfigurer.configurationSource( request -> {
-      var cors = new CorsConfiguration();
-      cors.setAllowedOrigins(List.of("*"));
-      cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
-      cors.setAllowedHeaders(List.of("*"));
-      return cors;
-    } ));
+    http.cors(corsConfigurer ->
+        corsConfigurer.configurationSource(request -> {
+          var cors = new CorsConfiguration();
+          cors.setAllowedOrigins(List.of("*"));
+          cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
+          cors.setAllowedHeaders(List.of("*"));
+          return cors;
+        }));
     http.csrf(csrfConfigurer -> csrfConfigurer.disable())
-        .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
-        .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            authorizeRequests -> authorizeRequests.requestMatchers(
-                "/api/v1/authentication/**", "/v3/api-docs/**", "/swagger-ui.html",
-                "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
+        .exceptionHandling(exceptionHandling ->
+            exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
+        .sessionManagement(customizer ->
+            customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(authorizeRequests ->
+            authorizeRequests
+                .requestMatchers("/api/v1/authentication/**", "/v3/api-docs/**",
+                    "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated());
@@ -114,6 +119,7 @@ public class WebSecurityConfiguration {
 
   /**
    * This is the constructor of the class.
+   *
    * @param userDetailsService The user details service
    * @param tokenService The token service
    * @param hashingService The hashing service

@@ -1,15 +1,14 @@
 package pe.edu.upc.center.platform.iam.infrastructure.authorization.sfs.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pe.edu.upc.center.platform.iam.domain.model.aggregates.User;
-
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * This class is responsible for providing the user details to the Spring Security framework.
@@ -28,6 +27,13 @@ public class UserDetailsImpl implements UserDetails {
   private final boolean enabled;
   private final Collection<? extends GrantedAuthority> authorities;
 
+  /**
+   * Constructor for UserDetailsImpl.
+   *
+   * @param username    The username of the user.
+   * @param password    The password of the user.
+   * @param authorities The authorities of the user.
+   */
   public UserDetailsImpl(String username, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.username = username;
@@ -41,6 +47,7 @@ public class UserDetailsImpl implements UserDetails {
 
   /**
    * This method is responsible for building the UserDetailsImpl object from the User object.
+   *
    * @param user The user object.
    * @return The UserDetailsImpl object.
    */
