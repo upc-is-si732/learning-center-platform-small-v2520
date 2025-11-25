@@ -1,5 +1,5 @@
 # Build stage: Maven + Temurin 24 JDK
-FROM maven:3.10.1-eclipse-temurin-24 AS build
+FROM maven:3.9.11-eclipse-temurin-24-noble AS build
 WORKDIR /workspace
 
 # copy pom and download dependencies to leverage cache
@@ -11,7 +11,7 @@ COPY . .
 RUN mvn -B -DskipTests package
 
 # Runtime stage: Temurin 24 JRE
-FROM eclipse-temurin:24-jre
+FROM eclipse-temurin:24-jre-noble
 WORKDIR /app
 
 # copy the built jar (adjust glob if your artifact name is known)
