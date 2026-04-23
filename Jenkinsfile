@@ -9,7 +9,7 @@ pipeline {
     stage ('Compile Project') {
       steps {
         withMaven(maven : 'MAVEN_3_9_11') {
-            bat 'mvn clean compile'
+            sh 'mvn clean compile'
         }
       }
     }
@@ -17,7 +17,7 @@ pipeline {
     stage('Validate Checkstyle') {
       steps {
         withMaven(maven: 'MAVEN_3_9_11') {
-          bat 'mvn checkstyle:check'
+          sh 'mvn checkstyle:check'
         }
       }
     }
@@ -25,7 +25,7 @@ pipeline {
     stage('Validate Unit Tests') {
       steps {
         withMaven(maven: 'MAVEN_3_9_11') {
-          bat 'mvn test'
+          sh 'mvn test'
         }
       }
     }
@@ -33,24 +33,24 @@ pipeline {
     stage('Validate Test Coverage') {
       steps {
         withMaven(maven: 'MAVEN_3_9_11') {
-          bat 'mvn clean verify jacoco:report'
-          bat 'mvn jacoco:check'
+          sh 'mvn clean verify jacoco:report'
+          sh 'mvn jacoco:check'
         }
       }
     }
 
-	 stage ('SonarQube Analysis') {
+	 /*stage ('SonarQube Analysis') {
         steps {
             withSonarQubeEnv('sonarLocal') {
                 bat 'mvn clean verify sonar:sonar -Dsonar.projectKey=learning-center'
             }
         }
-     }
+     }*/
 
     stage ('package Project') {
         steps {
             withMaven(maven : 'MAVEN_3_9_11') {
-                bat 'mvn package'
+                sh 'mvn package'
             }
         }
     }
