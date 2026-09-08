@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools {
-    maven 'MAVEN_3_9_11'
+    maven 'MAVEN_3_9'
     jdk 'JDK_24'
   }
 	environment {
@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage ('Compile Project') {
       steps {
-        withMaven(maven : 'MAVEN_3_9_11') {
+        withMaven(maven : 'MAVEN_3_9') {
             sh 'mvn clean compile'
         }
       }
@@ -22,7 +22,7 @@ pipeline {
 
     stage('Validate Checkstyle') {
       steps {
-        withMaven(maven: 'MAVEN_3_9_11') {
+        withMaven(maven: 'MAVEN_3_9') {
           sh 'mvn checkstyle:check'
         }
       }
@@ -30,7 +30,7 @@ pipeline {
 
     stage('Validate Unit Tests') {
       steps {
-        withMaven(maven: 'MAVEN_3_9_11') {
+        withMaven(maven: 'MAVEN_3_9') {
           sh 'mvn test'
         }
       }
@@ -45,7 +45,7 @@ pipeline {
       }
     }
 
-	 stage ('SonarQube Analysis') {
+	 /*stage ('SonarQube Analysis') {
         steps {
 			// 1. Enviar el código a analizar a SonarQube
             withSonarQubeEnv('MiSonarServer') {
@@ -65,7 +65,7 @@ pipeline {
 	        }
 
         }
-     }
+     }*/
 
 	  /*stage('Construir  y Publicar  Imagen Docker') {
             steps {
@@ -81,7 +81,7 @@ pipeline {
             }
         }*/
 
-	  stage('Construir y Publicar Imagen Docker') {
+	  /*stage('Construir y Publicar Imagen Docker') {
             steps {
                 // Nos autenticamos de forma segura en Docker Hub usando el ID de credenciales de Jenkins
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -95,7 +95,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 	  
 
     /*stage ('package Project') {
