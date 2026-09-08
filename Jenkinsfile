@@ -38,7 +38,7 @@ pipeline {
 
     stage('Validate Test Coverage') {
       steps {
-        withMaven(maven: 'MAVEN_3_9_11') {
+        withMaven(maven: 'MAVEN_3_9') {
           sh 'mvn clean verify jacoco:report'
           sh 'mvn jacoco:check'
         }
@@ -98,13 +98,13 @@ pipeline {
         }*/
 	  
 
-    /*stage ('package Project') {
+    stage ('package Project') {
         steps {
-            withMaven(maven : 'MAVEN_3_9_11') {
+            withMaven(maven : 'MAVEN_3_9') {
                 sh 'mvn package'
             }
         }
-    }*/
+    }
 
 
     }
