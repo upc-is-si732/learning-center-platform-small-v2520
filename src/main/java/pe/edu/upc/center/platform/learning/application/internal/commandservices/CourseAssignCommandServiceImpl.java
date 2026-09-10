@@ -14,7 +14,7 @@ import pe.edu.upc.center.platform.learning.infrastructure.persistence.jpa.reposi
 @Service
 public class CourseAssignCommandServiceImpl implements CourseAssignCommandService {
 
-  
+  private final CourseAssignRepository courseAssignRepository;
 
   /**
    * Constructor.
