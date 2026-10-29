@@ -45,7 +45,7 @@ pipeline {
       }
     }
 
-	 /*stage ('SonarQube Analysis') {
+	 stage ('SonarQube Analysis') {
         steps {
 			// 1. Enviar el código a analizar a SonarQube
             withSonarQubeEnv('MiSonarServer') {
@@ -65,7 +65,7 @@ pipeline {
 	        }
 
         }
-     }*/
+     }
 
 	  /*stage('Construir  y Publicar  Imagen Docker') {
             steps {
