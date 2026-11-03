@@ -7,7 +7,7 @@ pipeline {
 	environment {
 		REGISTRY_USER = "pcsijflo" // Cambia por tu usuario real de Docker Hub
         // Nombre de la imagen que vamos a crear para nuestra aplicación
-        IMAGE_NAME = "learning-center-platform-small"
+        IMAGE_NAME = "learning-center-platform-small-v2620"
         TAG        = "${env.BUILD_NUMBER}" // Usa el número de ejecución de Jenkins como versión
     }
 
@@ -81,7 +81,7 @@ pipeline {
             }
         }*/
 
-	  /*stage('Construir y Publicar Imagen Docker') {
+	  stage('Construir y Publicar Imagen Docker') {
             steps {
                 // Nos autenticamos de forma segura en Docker Hub usando el ID de credenciales de Jenkins
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -95,7 +95,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 	  
 
     stage ('package Project') {
